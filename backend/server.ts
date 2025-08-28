@@ -206,31 +206,30 @@ app.post('/api/tableOrders/:tableId/items', (req: express.Request, res: express.
     
     let order = tableOrders.find(o => o.tableId === tableId);
 
-    if (order) {
-        if (customerCount) {
-            order.customerCount = customerCount;
-        }
-        itemsToAdd.forEach((itemToAdd: SaleItem) => {
-            const existingItem = order.items.find(i => i.productId === itemToAdd.productId);
-            if (existingItem) {
-                existingItem.quantity += itemToAdd.quantity;
-            } else {
-                order.items.push(itemToAdd);
-            }
-        });
-        order.total = order.items.reduce((sum: number, item: SaleItem) => sum + (item.unitPrice * item.quantity), 0);
-    } else {
+    if (!order) {
         order = {
             id: crypto.randomUUID(),
             tableId,
-            items: itemsToAdd,
+            items: [],
             total: 0,
             createdAt: new Date().toISOString(),
             customerCount
         };
-        order.total = order.items.reduce((sum: number, item: SaleItem) => sum + (item.unitPrice * item.quantity), 0);
         tableOrders.push(order);
     }
+
+    if (customerCount) {
+        order.customerCount = customerCount;
+    }
+    itemsToAdd.forEach((itemToAdd: SaleItem) => {
+        const existingItem = order.items.find(i => i.productId === itemToAdd.productId);
+        if (existingItem) {
+            existingItem.quantity += itemToAdd.quantity;
+        } else {
+            order.items.push(itemToAdd);
+        }
+    });
+    order.total = order.items.reduce((sum: number, item: SaleItem) => sum + (item.unitPrice * item.quantity), 0);
 
     res.json({ updatedOrder: order });
 });
