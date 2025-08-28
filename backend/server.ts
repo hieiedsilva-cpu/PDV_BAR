@@ -207,29 +207,36 @@ app.post('/api/tableOrders/:tableId/items', (req: express.Request, res: express.
     
     let order = tableOrders.find(o => o.tableId === tableId);
 
-    if (order) {
-        if (customerCount && !order.customerCount) order.customerCount = customerCount;
-        itemsToAdd.forEach((itemToAdd: SaleItem) => {
-            const existingItem = order.items.find(i => i.productId === itemToAdd.productId);
-            if (existingItem) {
-                existingItem.quantity += itemToAdd.quantity;
-            } else {
-                order.items.push(itemToAdd);
-            }
-        });
+	if (order) {
+  // ... (código para adicionar itens)
+  if (customerCount && order.customerCount) order.customerCount = customerCount;
+  itemsToAdd.forEach((itemToAdd) => {
+    const existingItem = order.items.find(i => i.productId === itemToAdd.productId);
+    if (existingItem) {
+      existingItem.quantity += itemToAdd.quantity;
     } else {
-        order = {
-            id: crypto.randomUUID(),
-            tableId,
-            items: itemsToAdd,
-            total: 0,
-            createdAt: new Date().toISOString(),
-            customerCount
-        };
-        tableOrders.push(order);
+      order.items.push(itemToAdd);
     }
-    order.total = order.items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-    res.json({ updatedOrder: order });
+  });
+  // Calcula o total aqui dentro
+  order.total = order.items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+} else {
+  // CORRETO: Atribui um novo objeto à variável 'order' existente
+  order = {
+    id: crypto.randomUUID(),
+    tableId,
+    items: itemsToAdd,
+    total: 0, // O total será calculado a seguir
+    createdAt: new Date().toISOString(),
+    customerCount
+  };
+  // Calcula o total aqui também
+  order.total = order.items.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+  tableOrders.push(order);
+}
+
+// Agora 'order' com certeza tem um valor
+res.json({ updatedOrder: order });
 });
 
 // Update an item on a table
