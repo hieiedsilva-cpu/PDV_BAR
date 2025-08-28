@@ -1,0 +1,13 @@
+{
+  "name": "bar-do-wood-fullstack",
+  "version": "1.0.0",
+  "description": "A fullstack application for the Bar do Wood POS system.",
+  "private": true,
+  "scripts": {
+    "build": "cd backend && yarn install && tsc",
+    "start": "NODE_ENV=production node backend/dist/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

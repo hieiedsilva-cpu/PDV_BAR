@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bar do Wood</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes pulse-green {
+        0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+        100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      }
+      .animate-pulse-green {
+        animation: pulse-green 0.5s ease-out;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#f59e0b', // Amber 500
+              'secondary': '#06b6d4', // Cyan 500
+              'dark': {
+                '900': '#111827', // Gray 900
+                '800': '#1f2937', // Gray 800
+                '700': '#374151', // Gray 700
+                '600': '#4b5563', // Gray 600
+              }
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.541.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.1.2",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.8.2",
+    "jspdf": "https://aistudiocdn.com/jspdf@^2.5.1",
+    "jspdf-autotable": "https://aistudiocdn.com/jspdf-autotable@^3.8.2",
+    "xlsx": "https://aistudiocdn.com/xlsx@^0.18.5/xlsx.mjs",
+    "qrcode": "https://aistudiocdn.com/qrcode@^1.5.3",
+    "cors": "https://aistudiocdn.com/cors@^2.8.5",
+    "express": "https://aistudiocdn.com/express@^5.1.0",
+    "path": "https://aistudiocdn.com/path@^0.12.7"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-dark-900 text-gray-200">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
