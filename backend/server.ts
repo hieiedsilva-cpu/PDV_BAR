@@ -485,9 +485,8 @@ app.get('/api/tableOrders/:tableId/isSettled', (req: express.Request, res: expre
     res.json({ settled });
 });
 
-// The "catchall" handler: for any request that doesn't match one of the API routes,
-// send back React's index.html file.
-// Fix: Add explicit express types to request and response objects.
+/* --- ADICIONE O "/*" AQUI PARA COMEÇAR O COMENTÁRIO ---
+// The "catchall" handler
 app.get('*', (req: express.Request, res: express.Response) => {
   res.sendFile(path.join(staticPath, 'index.html'));
 });
