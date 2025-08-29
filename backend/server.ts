@@ -1,4 +1,4 @@
-// Fix: Change express import to default to avoid type collisions and use explicit express.Request and express.Response types.
+// VERSÃO FINAL E CORRIGIDA - API-ONLY
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -18,14 +18,6 @@ let tableOrders: TableOrder[] = [];
 
 app.use(cors());
 app.use(express.json());
-
-// Serve static files from the React app
-// Fix: Use a path that works correctly after building for production.
-const staticPath = process.env.NODE_ENV === 'production'
-    ? path.join(__dirname, '..', '..')
-    : path.join(__dirname, '..');
-app.use(express.static(staticPath));
-
 
 // --- Helper Functions ---
 const addSaleLogic = (items: SaleItem[], total: number, paymentMethod: PaymentMethod, customerId?: string, tableNumber?: number, customerCount?: number) => {
@@ -67,15 +59,13 @@ const addSaleLogic = (items: SaleItem[], total: number, paymentMethod: PaymentMe
 
 // --- API Endpoints ---
 
-// Health check that the user is likely seeing
-// Fix: Add explicit express types to request and response objects.
+// Health check
 app.get('/api', (req: express.Request, res: express.Response) => {
     res.json({ status: 'online', message: 'API do Bar do Wood' });
 });
 
 
 // Initial data load endpoint
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/data', (req: express.Request, res: express.Response) => {
     res.json({
         products,
@@ -88,23 +78,19 @@ app.get('/api/data', (req: express.Request, res: express.Response) => {
 });
 
 // Products
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/products', (req: express.Request, res: express.Response) => res.json(products));
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/products', (req: express.Request, res: express.Response) => {
     const product = req.body;
     const newProduct: Product = { ...product, id: crypto.randomUUID() };
     products.push(newProduct);
     res.status(201).json(newProduct);
 });
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/products/:id', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const updatedProduct = req.body;
     products = products.map(p => p.id === id ? updatedProduct : p);
     res.json(updatedProduct);
 });
-// Fix: Add explicit express types to request and response objects.
 app.delete('/api/products/:id', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     products = products.filter(p => p.id !== id);
@@ -113,33 +99,27 @@ app.delete('/api/products/:id', (req: express.Request, res: express.Response) =>
 
 
 // Customers
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/customers', (req: express.Request, res: express.Response) => res.json(customers));
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/customers', (req: express.Request, res: express.Response) => {
     const customer = req.body;
     const newCustomer: Customer = { ...customer, id: crypto.randomUUID(), balance: 0 };
     customers.push(newCustomer);
     res.status(201).json(newCustomer);
 });
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/customers/:id', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const updatedCustomer = req.body;
     customers = customers.map(c => c.id === id ? updatedCustomer : c);
     res.json(updatedCustomer);
 });
-// Fix: Add explicit express types to request and response objects.
 app.delete('/api/customers/:id', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     customers = customers.filter(c => c.id !== id);
     res.status(204).send();
 });
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/sales', (req: express.Request, res: express.Response) => res.json(sales));
 
 // Sales
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/sales', (req: express.Request, res: express.Response) => {
     const { items, total, paymentMethod, customerId, tableNumber, customerCount } = req.body;
     const result = addSaleLogic(items, total, paymentMethod, customerId, tableNumber, customerCount);
@@ -147,7 +127,6 @@ app.post('/api/sales', (req: express.Request, res: express.Response) => {
 });
 
 // Expenses
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/expenses', (req: express.Request, res: express.Response) => {
     const expense = req.body;
     const newExpense: Expense = { ...expense, id: crypto.randomUUID(), date: new Date().toISOString() };
@@ -156,7 +135,6 @@ app.post('/api/expenses', (req: express.Request, res: express.Response) => {
 });
 
 // Customer Payment
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/customers/:id/payment', (req: express.Request, res: express.Response) => {
     const customerId = req.params.id;
     const { amount, paymentMethod } = req.body;
@@ -176,13 +154,10 @@ app.post('/api/customers/:id/payment', (req: express.Request, res: express.Respo
 
 
 // Tables and Orders
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/tables', (req: express.Request, res: express.Response) => res.json(tables));
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/tableOrders', (req: express.Request, res: express.Response) => res.json(tableOrders));
 
 // Update table status
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/tables/:id/status', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const { status } = req.body;
@@ -199,7 +174,6 @@ app.put('/api/tables/:id/status', (req: express.Request, res: express.Response) 
 
 
 // Add items to a table
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/tableOrders/:tableId/items', (req: express.Request, res: express.Response) => {
     const { tableId } = req.params;
     const { itemsToAdd, customerCount } = req.body as { itemsToAdd: SaleItem[], customerCount?: number };
@@ -235,7 +209,6 @@ app.post('/api/tableOrders/:tableId/items', (req: express.Request, res: express.
 });
 
 // Update an item on a table
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/tableOrders/:tableId/items/:productId', (req: express.Request, res: express.Response) => {
     const { tableId, productId } = req.params;
     const { delta } = req.body;
@@ -252,7 +225,6 @@ app.put('/api/tableOrders/:tableId/items/:productId', (req: express.Request, res
 });
 
 // Remove item from table
-// Fix: Add explicit express types to request and response objects.
 app.delete('/api/tableOrders/:tableId/items/:productId', (req: express.Request, res: express.Response) => {
     const { tableId, productId } = req.params;
     const orderIndex = tableOrders.findIndex(o => o.tableId === tableId);
@@ -271,7 +243,6 @@ app.delete('/api/tableOrders/:tableId/items/:productId', (req: express.Request, 
 });
 
 // Finalize a table sale
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/tableOrders/:tableId/finalize', (req: express.Request, res: express.Response) => {
     const { tableId } = req.params;
     const { paymentMethod, customerId } = req.body;
@@ -294,14 +265,12 @@ app.post('/api/tableOrders/:tableId/finalize', (req: express.Request, res: expre
     });
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/tables', (req: express.Request, res: express.Response) => {
     const newTables = req.body;
     tables = newTables;
     res.json(tables);
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/tables', (req: express.Request, res: express.Response) => {
     const maxNumber = tables.reduce((max, t) => Math.max(max, t.number), 0);
     const newTable: Table = {
@@ -313,7 +282,6 @@ app.post('/api/tables', (req: express.Request, res: express.Response) => {
     res.status(201).json(newTable);
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.delete('/api/tables/:id', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const orderExists = tableOrders.some(o => o.tableId === id);
@@ -324,7 +292,6 @@ app.delete('/api/tables/:id', (req: express.Request, res: express.Response) => {
     res.status(204).send();
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/sales/reopen', (req: express.Request, res: express.Response) => {
     const { saleId } = req.body;
     const saleIndex = sales.findIndex(s => s.id === saleId);
@@ -372,7 +339,6 @@ app.post('/api/sales/reopen', (req: express.Request, res: express.Response) => {
     res.json({ success: true, tableOrders, tables, products, customers, sales });
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.put('/api/sales/:id/nfce', (req: express.Request, res: express.Response) => {
     const { id } = req.params;
     const { cpf } = req.body;
@@ -388,7 +354,6 @@ app.put('/api/sales/:id/nfce', (req: express.Request, res: express.Response) => 
 });
 
 // Split Bill Logic
-// Fix: Add explicit express types to request and response objects.
 app.post('/api/tableOrders/:tableId/split', (req: express.Request, res: express.Response) => {
     const { tableId } = req.params;
     const { action, payload } = req.body;
@@ -474,7 +439,6 @@ app.post('/api/tableOrders/:tableId/split', (req: express.Request, res: express.
     res.json({ order });
 });
 
-// Fix: Add explicit express types to request and response objects.
 app.get('/api/tableOrders/:tableId/isSettled', (req: express.Request, res: express.Response) => {
     const { tableId } = req.params;
     const order = tableOrders.find(o => o.tableId === tableId);
@@ -483,12 +447,6 @@ app.get('/api/tableOrders/:tableId/isSettled', (req: express.Request, res: expre
         tableOrders = tableOrders.filter(o => o.tableId !== tableId);
     }
     res.json({ settled });
-});
-
-/* --- ADICIONE O "/*" AQUI PARA COMEÇAR O COMENTÁRIO ---
-// The "catchall" handler
-app.get('*', (req: express.Request, res: express.Response) => {
-  res.sendFile(path.join(staticPath, 'index.html'));
 });
 
 app.listen(port, () => {
