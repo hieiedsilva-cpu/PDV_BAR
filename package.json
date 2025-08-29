@@ -4,9 +4,10 @@
   "description": "A fullstack application for the Bar do Wood POS system.",
   "private": true,
   "scripts": {
-    "build": "cd backend && yarn install && tsc",
-    "start": "NODE_ENV=production node backend/dist/server.js"
-  },
+  "build": "yarn install && yarn build:frontend && cd backend && yarn install && tsc",
+  "build:frontend": "react-scripts build",
+  "start": "NODE_ENV=production node backend/dist/server.js"
+},
   "engines": {
     "node": ">=18.0.0"
   }
