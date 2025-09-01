@@ -17,10 +17,10 @@
 	 "typescript": "^4.9.0"
   },
   "scripts": {
-    "build": "yarn install && yarn build:frontend && cd backend && yarn install && tsc",
-    "build:frontend": "react-scripts build",
-    "start": "NODE_ENV=production node backend/dist/server.js"
-  },
+  "build": "yarn install && (cd frontend && yarn install && yarn build) && (cd backend && yarn install && tsc)",
+  "build:frontend": "cd frontend && yarn build",
+  "start": "NODE_ENV=production node backend/dist/server.js"
+},
   "engines": {
     "node": ">=18.0.0"
   },
