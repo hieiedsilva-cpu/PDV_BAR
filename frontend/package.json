@@ -14,12 +14,13 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "tailwindcss": "^3.3.3",
-	 "typescript": "^4.9.0"
+    "typescript": "^4.9.0"
   },
-"scripts": {
-  "build:fullstack": "yarn install && (cd frontend && yarn install && yarn build) && (cd backend && yarn install && tsc)", // Renomeado
-  "build:frontend": "cd frontend && yarn build",
-  "start": "NODE_ENV=production node backend/dist/server.js"
+	"scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
 },
   "engines": {
     "node": ">=18.0.0"
