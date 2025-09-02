@@ -1,24 +1,12 @@
-# Arquivo de configuração para o Render.
-# Define os serviços de frontend e backend.
-
 services:
-  # --- Serviço do Frontend (Site Estático) ---
   - type: static_site
     name: front-pdv
     rootDir: frontend
     buildCommand: yarn install && yarn build
     publishDir: build
-    # O Render automaticamente conecta o frontend ao backend
-    # se eles estiverem no mesmo "app".
-
-  # --- Serviço do Backend (Servidor Node.js) ---
   - type: web_service
-    name: backend-pdv # Nome do seu servidor no Render
+    name: backend-pdv
     env: node
     rootDir: backend
     buildCommand: yarn install && tsc
     startCommand: node dist/server.js
-    # Exemplo de como adicionar variáveis de ambiente (ex: conexão com banco de dados)
-    # envVars:
-    #   - key: DATABASE_URL
-    #     value: SEU_VALOR_AQUI
