@@ -4,8 +4,7 @@
 services:
   # --- Serviço do Frontend (Site Estático) ---
   - type: static_site
-    name: front-pdv # Nome do seu site no Render
-    env: static
+    name: front-pdv
     rootDir: frontend
     buildCommand: yarn install && yarn build
     publishDir: build
