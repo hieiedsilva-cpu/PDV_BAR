@@ -5,6 +5,7 @@ import path from 'path';
 import type { Product, Customer, Sale, Expense, Table, TableOrder, SaleItem, PaymentMethod, TableStatus, SplitBill } from './types';
 import { initialProducts, initialCustomers, initialSales, initialExpenses, initialTables } from './mockData';
 
+// Criar a aplicação Express
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -449,6 +450,12 @@ app.get('/api/tableOrders/:tableId/isSettled', (req: express.Request, res: expre
     res.json({ settled });
 });
 
-app.listen(port, () => {
-  console.log(`Backend do Bar do Wood está no ar! http://localhost:${port}`);
-});
+// Iniciar o servidor apenas se não estiver em ambiente serverless
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Backend do Bar do Wood está no ar! http://localhost:${port}`);
+  });
+}
+
+// Exportar a aplicação para uso em ambiente serverless
+export { app };

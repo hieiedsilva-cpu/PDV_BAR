@@ -1,6 +1,7 @@
 import type { Product, Customer, Sale, Expense, Table, TableOrder, SaleItem, PaymentMethod, TableStatus, SplitBill } from '../types';
 
-const API_BASE_URL = '/api'; // Backend is served from the same origin
+// Use environment variable for API URL with fallback to relative path
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 async function handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {

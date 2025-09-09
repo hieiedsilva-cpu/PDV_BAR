@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "vercel-build": "tsc"
   },
   "keywords": [],
   "author": "",
