@@ -12,27 +12,30 @@ Este projeto foi configurado para ser facilmente implantado na Vercel. Siga as i
 
 ### Passos para Deploy
 
-1. **Crie uma conta na Vercel** (se ainda não tiver)
+1. **Acesse o Dashboard da Vercel**
+   - Vá para [vercel.com](https://vercel.com)
+   - Faça login com sua conta GitHub
 
-2. **Instale a CLI da Vercel**
-   ```
-   npm install -g vercel
-   ```
+2. **Importe o Projeto**
+   - Clique em "Add New" > "Project"
+   - Selecione o repositório GitHub do projeto
+   - A Vercel detectará automaticamente as configurações do projeto
 
-3. **Faça login na Vercel**
-   ```
-   vercel login
-   ```
+3. **Configure as Variáveis de Ambiente**
+   Na interface da Vercel, adicione as variáveis de ambiente necessárias:
+   - `NODE_ENV`: production
+   - `GEMINI_API_KEY`: (se estiver utilizando a API do Gemini)
 
-4. **Deploy do projeto**
-   ```
-   vercel
-   ```
+4. **Inicie o Deploy**
+   - Clique em "Deploy"
+   - Aguarde a conclusão do processo
+   - A Vercel fornecerá um URL para acessar sua aplicação
 
-5. **Configuração de Variáveis de Ambiente**
-   - No dashboard da Vercel, vá para o seu projeto
-   - Acesse a aba "Settings" > "Environment Variables"
-   - Adicione a variável `VITE_API_URL` com o valor da URL da sua API (ex: https://seu-projeto.vercel.app/api)
+5. **Solução de Problemas**
+   Se encontrar o erro 404 após o deploy:
+   - Verifique os logs de build na Vercel
+   - Confirme que o arquivo vercel.json está configurado corretamente
+   - Verifique se as variáveis de ambiente estão configuradas
 
 ### Desenvolvimento Local
 

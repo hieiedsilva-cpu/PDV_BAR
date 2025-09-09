@@ -450,12 +450,13 @@ app.get('/api/tableOrders/:tableId/isSettled', (req: express.Request, res: expre
     res.json({ settled });
 });
 
-// Iniciar o servidor apenas se não estiver em ambiente serverless
+// Iniciar o servidor apenas se não estiver em ambiente de produção (Vercel)
 if (process.env.NODE_ENV !== 'production') {
   app.listen(port, () => {
     console.log(`Backend do Bar do Wood está no ar! http://localhost:${port}`);
   });
 }
 
-// Exportar a aplicação para uso em ambiente serverless
+// Exportar a aplicação para uso no ambiente serverless
+export default app;
 export { app };

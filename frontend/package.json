@@ -18,11 +18,11 @@
     "typescript": "^4.9.0",
     "vite": "^5.0.0"
   },
-	"scripts": {
-  "start": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-},
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
